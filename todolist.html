@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+    <title>To Do List</title>
 	<script src="https://unpkg.com/vue">
 	</script>
 	<title></title>
@@ -22,9 +22,9 @@
                 items: []
             },
             mounted() {
-                if (window.localStorage.savedItems) {
-                    this.items = JSON.parse(window.localStorage.savedItems);
-                }
+                fetch('/items').then(result => {
+                    result.text().then(alert);
+                });
             },
 
             methods: {
@@ -42,7 +42,8 @@
 
             watch: {
                 items() {
-                    window.localStorage.savedItems = JSON.stringify(this.items); 
+                    fetch('/items/set/' + JSON.stringify(this.items));
+                    // window.localStorage.savedItems = JSON.stringify(this.items); 
                 }
             }
         });

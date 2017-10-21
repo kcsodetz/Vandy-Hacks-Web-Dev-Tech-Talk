@@ -7,4 +7,14 @@ app.get('/', (req, res) => {
 
 });
 
+let items = '[]';
+app.get('/items/set/:items', (req, res) => {
+    items = req.params.items;
+    res.sendStatus(200);
+});
+
+app.get('/items', (req, res) => {
+    res.send(items);
+});
+
 app.listen(3000);
