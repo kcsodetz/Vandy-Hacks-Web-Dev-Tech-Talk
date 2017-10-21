@@ -22,8 +22,8 @@
                 items: []
             },
             mounted() {
-                fetch('/items').then(result => {
-                    result.text().then(alert);
+                fetch('/items').then(result => result.text()).then(text => {
+                    this.items = JSON.parse(text);
                 });
             },
 
