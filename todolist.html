@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<script src="https://unpkg.com/vue">
+	</script>
+	<title></title>
+</head>
+<body>
+	<div id="app">
+		<ol>
+			<li v-for="(item, index) in items" >{{item}}<button @click="removeItem(index)">X</button></li>
+        </ol>
+        <input v-model="value"@keyup.enter="addItem()" placeholder="item to add"></input>
+        <button @click ="addItem()">Add Item</button>         
+	</div>
+	<script>
+        new Vue({
+            el: '#app',
+            data: {
+                value: '',
+                items: []
+            },
+            mounted() {
+                if (window.localStorage.savedItems) {
+                    this.items = JSON.parse(window.localStorage.savedItems);
+                }
+            },
+
+            methods: {
+                addItem() {
+                    if(this.value.length > 0){
+                        this.items.push(this.value);
+                        this.value = '';
+                    }
+                },
+
+                removeItem(index) {
+                    this.items.splice(index, 1);
+                }
+            },
+
+            watch: {
+                items() {
+                    window.localStorage.savedItems = JSON.stringify(this.items); 
+                }
+            }
+        });
+	</script>
+</body>
+</html>
