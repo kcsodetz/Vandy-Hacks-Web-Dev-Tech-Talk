@@ -1,15 +1,21 @@
 const path = require('path');
 const express = require('express');
 const app = express();
-
+const fs = require('fs');
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'todolist.html'));
 
 });
 
 let items = '[]';
+let itemsFile = 'items.txt';
+if(fs.existsSync(itemsFile)) {
+    items = fs.readFileSync(itemsFile);
+}
+
 app.get('/items/set/:items', (req, res) => {
     items = req.params.items;
+    fs.writeFile(itemsFile, items, () => {});
     res.sendStatus(200);
 });
 
